@@ -1,11 +1,10 @@
 ---
-title: API Reference
+title: Maverick  API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
+  - Android
   - python
-  - javascript
+
 
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
@@ -17,7 +16,7 @@ includes:
 search: true
 ---
 
-# Introduction
+# Introduction To Maverick Recognizer
 
 Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
 
