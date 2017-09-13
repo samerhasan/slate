@@ -2,7 +2,7 @@
 title: Maverick  API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - Android
+  - java
   - python
 
 
@@ -16,223 +16,108 @@ includes:
 search: true
 ---
 
-# Introduction To Maverick Recognizer
+# Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+    MAVERICK is a rugged 4G standalone phone with no display, the size of a car key fob It relies on voice commands, and communicates with your smartphone App through the cell network.
+    MAVERICK accesses your smartphone contacts to make calls and texts for you. The smartphone forwards calls and texts to MAVERICK phone based on rules you set on Maverick's essential app.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+* No display
+* No sensors
+* No GPS tracking
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Smartphones put a desktop in your pocket. Maverick only takes what's essential. for more [Maverick](https://www.maverickai.com/)
 
 # Authentication
 
-> To authorize, use this code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+Maverick command recognizer regonitzer is free for use in the Beta stage. 
 </aside>
 
-# Kittens
+# API
 
-## Get All Kittens
+## Get Command Slots
 
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+```java
+	String url = "https://hlep.herokuapp.com/parse/";
+	String jsonStr = sh.makeServiceCall(url + inputCommand.replace(" ", "%20"));
 ```
 
 ```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
+	import requests
+	request = requests.get(url + inputCommand)
 ```
 
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
   {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+    "Intent": "message",
+    "Receivier": "John",
+    "Time": "Sunday 5 PM",
+    "Frequency": "weekly",
+    "Content": "Meet you soon",
+    "Additional": ""
   }
-]
 ```
 
-This endpoint retrieves all kittens.
+Maverick web service retrieve Slots from commands based on AI and MLtechnologies. 
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`https://hlep.herokuapp.com/parse/`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Intent | null | the intent of the command.  send message, make a call, set an alarm.
+Receivier | null | contact name to be used to execute the command.
+Time | null | command execution time. 
+Frequency | null | command execution frequency. Daily, weekly monthly.
+Content | null | the command content for message or alarm.
+Additional | null | any additionalcommad from the user. 
+
+
+
 
 <aside class="success">
 Remember — a happy kitten is an authenticated kitten!
 </aside>
 
-## Get a Specific Kitten
+## Parsing JSON Object
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
+```java
+JSONObject jsonObj = new JSONObject(jsonStr);
+Initial = jsonObj.getString("Initial");
+commandIntent = jsonObj.getString("Intent");
+Receiver = jsonObj.getString("Receiver");
+Time = jsonObj.getString("Time");
+Frequency = jsonObj.getString("Frequency");
+AdditionalSound = jsonObj.getString("AdditionalSound");
+Content = jsonObj.getString("Content");
+                  
 ```
 
 ```python
-import kittn
+import json
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
+josnObj =  json.loads(request)
+
+commandIntent = jsonObj["Intent"]
+Receiver = jsonObj["Receiver"];
+Time = jsonObj["Time"];
+Frequency = jsonObj["Frequency"]
+AdditionalSound = jsonObj["Additional"]
+Content = jsonObj.["Content"] 
+
+
 ```
 
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
 
-```javascript
-const kittn = require('kittn');
+This endpoint retrieves a slots.
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
 
